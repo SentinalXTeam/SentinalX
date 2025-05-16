@@ -1,90 +1,72 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap');
 
 body {
-  margin: 0;
-  font-family: 'Comfortaa', cursive;
-  color: white;
-  overflow: hidden;
-  background: black;
-}
-
-#background-stars {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
-  animation: moveStars 60s linear infinite;
-  z-index: -1;
-  opacity: 0.2;
-}
-
-@keyframes moveStars {
-  0% { background-position: 0 0; }
-  100% { background-position: 1000px 1000px; }
+    margin: 0;
+    font-family: 'Comfortaa', sans-serif;
+    background: linear-gradient(145deg, #000000, #1a001a);
+    color: white;
+    overflow: hidden;
 }
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 25px;
-  background: rgba(153, 0, 255, 0.3);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid #9900ff;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 10px 20px;
+    box-shadow: 0 0 20px #9900ff;
 }
 
-.navbar h1 {
-  margin: 0;
-  font-size: 24px;
-  color: #fff;
+.logo {
+    height: 40px;
+    margin-right: 15px;
 }
 
-.nav-buttons button {
-  background: transparent;
-  border: 2px solid #9900ff;
-  color: white;
-  padding: 10px 15px;
-  margin: 0 5px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s ease;
+.container {
+    display: flex;
+    height: calc(100vh - 60px);
 }
 
-.nav-buttons button:hover {
-  background-color: #9900ff;
-  box-shadow: 0 0 10px #9900ff, 0 0 20px #9900ff;
+.sidebar {
+    width: 220px;
+    background: rgba(20, 0, 40, 0.7);
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    box-shadow: 4px 0 15px #9900ff;
 }
 
-.glow {
-  border-color: #fff;
-  box-shadow: 0 0 8px #fff;
+.sidebar button {
+    background: transparent;
+    border: 1px solid #9900ff;
+    color: white;
+    margin: 10px 0;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar button:hover {
+    background-color: #9900ff;
+    box-shadow: 0 0 15px #cc66ff;
+}
+
+.content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
 }
 
 .page {
-  padding: 40px;
-  animation: fadeIn 0.4s ease;
+    display: none;
 }
 
-.hidden {
-  display: none;
+.page.active {
+    display: block;
 }
 
-input[type="text"], input[type="password"], input[type="date"] {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #9900ff;
-  width: 300px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-button {
-  font-family: 'Comfortaa', cursive;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+label {
+    display: block;
+    margin: 10px 0;
+    font-size: 16px;
 }
