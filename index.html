@@ -1,161 +1,51 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>UISentinalX WebEditor</title>
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Comfortaa', cursive;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      background: radial-gradient(circle at top, #000000 0%, #1a001f 100%);
-      overflow: hidden;
-      color: white;
-    }
-    .starfield {
-      background: url("https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/media/stars.png");
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      z-index: -1;
-      animation: moveStars 200s linear infinite;
-    }
-    @keyframes moveStars {
-      from { background-position: 0 0; }
-      to { background-position: 10000px 5000px; }
-    }
-    .container {
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 3rem;
-    }
-    .title {
-      font-size: 2.5rem;
-      color: #9900ff;
-      margin-bottom: 1.5rem;
-      text-shadow: 0 0 15px #9900ff;
-    }
-    .editor-panel {
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 20px;
-      backdrop-filter: blur(25px);
-      padding: 2rem;
-      width: 80%;
-      max-width: 800px;
-      box-shadow: 0 0 25px #9900ff80;
-    }
-    .field {
-      margin-bottom: 1.5rem;
-    }
-    label {
-      font-size: 1rem;
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 0.75rem;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-      background: #222;
-      color: white;
-    }
-    .toggles {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: space-between;
-    }
-    .toggle-group {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 45%;
-    }
-    .toggle-group label {
-      margin-bottom: 0.3rem;
-    }
-    .generate-btn, .copy-btn {
-      width: 100%;
-      padding: 1rem;
-      margin-top: 1rem;
-      border: none;
-      border-radius: 10px;
-      background: #9900ff;
-      color: white;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .generate-btn:hover, .copy-btn:hover {
-      background: white;
-      color: #9900ff;
-      box-shadow: 0 0 10px #9900ff, 0 0 20px #9900ff;
-    }
-    .output {
-      margin-top: 1rem;
-      word-break: break-word;
-      font-size: 0.9rem;
-      color: #ccc;
-    }
-    .footer {
-      margin-top: 2rem;
-      font-size: 0.75rem;
-      color: #999;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>UISentinalX Editor</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="starfield"></div>
-  <div class="container">
-    <div class="title">UISentinalX WebEditor</div>
-    <div class="editor-panel">
-      <div class="field">
-        <label for="experienceID">Experience ID</label>
-        <input type="text" id="experienceID" placeholder="Enter your Roblox Experience ID">
-      </div>
-      <div class="toggles">
-        <div class="toggle-group">
-          <label><input type="checkbox" id="speedHack"> SpeedHack Detection</label>
-          <label><input type="checkbox" id="injection"> Injection Check</label>
-          <label><input type="checkbox" id="scanAll"> Scan All Players</label>
-        </div>
-        <div class="toggle-group">
-          <label><input type="checkbox" id="infiniteYield"> Infinite Yield Detector</label>
-          <label><input type="checkbox" id="dexExplorer"> DEX Explorer Detector</label>
-          <label><input type="checkbox" id="skp"> SKP Detection (Coming Soon)</label>
-        </div>
-      </div>
-      <button class="generate-btn" onclick="generateCode()">Generate Code</button>
-      <div class="output" id="outputArea"></div>
-      <button class="copy-btn" onclick="copyCode()">Copy to Clipboard</button>
+  <div id="background-stars"></div>
+
+  <div class="navbar">
+    <h1>UISentinalX Editor</h1>
+    <div class="nav-buttons">
+      <button onclick="navigate('dashboard')">Dashboard</button>
+      <button onclick="navigate('settings')">Settings</button>
+      <button onclick="navigate('about')">About</button>
+      <a href="https://sites.google.com/view/sentinal-x/home" target="_blank">
+        <button class="glow">Official Site</button>
+      </a>
     </div>
-    <div class="footer">Built with love by SentinalX Team (Just Me) | AI Detection Soon™</div>
   </div>
 
-  <script>
-    function generateCode() {
-      const id = document.getElementById('experienceID').value;
-      const date = new Date().toISOString().slice(0, 10);
-      const secret = Math.floor(Math.random() * 999999);
-      const code = `{${id}}{${date}}{${secret}}`;
-      document.getElementById('outputArea').innerText = "Generated Code:\n" + code;
-    }
+  <div class="page" id="dashboard">
+    <h2>Dashboard</h2>
+    <p>Edit your SentinalX configurations here. Set experience IDs and secret codes easily.</p>
+  </div>
 
-    function copyCode() {
-      const text = document.getElementById('outputArea').innerText.replace("Generated Code:\n", "");
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Code copied to clipboard!");
-      });
-    }
-  </script>
+  <div class="page hidden" id="settings">
+    <h2>Settings</h2>
+    <label>Experience ID:</label><br>
+    <input type="text" id="expId"><br><br>
+
+    <label>Secret Key:</label><br>
+    <input type="password" id="secret"><br><br>
+
+    <label>Date Token:</label><br>
+    <input type="date" id="dateToken"><br><br>
+
+    <button onclick="saveConfig()">Save Configuration</button>
+  </div>
+
+  <div class="page hidden" id="about">
+    <h2>About UISentinalX</h2>
+    <p>UISentinalX is a sleek anti-cheat Web Editor UI. Combining OneUI7 and iOS18 style with functional Roblox integration.</p>
+    <p>More features coming soon, including AI Detection, Auto Update Sync, and Cloud Logging.</p>
+    <p><strong>90% of hacked Roblox games are caused by infected scripts or outdated anti-cheats.</strong></p>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
