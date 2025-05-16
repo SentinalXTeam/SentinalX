@@ -1,52 +1,44 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SentinalX Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SentinalX Config Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="navbar">
-        <img src="https://raw.githubusercontent.com/SentinalXTeam/SentinalX/refs/heads/main/Sentinal%20X.png" alt="SentinalX Logo" class="logo">
-        <h1>SentinalX Dashboard</h1>
-    </div>
-    <div class="container">
-        <div class="sidebar">
-            <button onclick="showPage('home')">Home</button>
-            <button onclick="showPage('settings')">Settings</button>
-            <button onclick="showPage('about')">About</button>
-        </div>
-        <div class="content">
-            <div id="home" class="page active">
-                <h2>Welcome to SentinalX</h2>
-                <p>Powerful anti-cheat protection, now with cloud syncing and AI detection (coming soon).</p>
-            </div>
-            <div id="settings" class="page">
-                <h2>Settings</h2>
-                <label><input type="checkbox" id="enableAI"> Enable AI Detection (Coming Soon)</label><br>
-                <label><input type="checkbox" id="cloudLogging"> Enable Cloud Logging</label><br>
-                <label><input type="checkbox" id="autoSync"> Enable Auto Update Sync</label>
-            </div>
-            <div id="about" class="page">
-                <h2>About UISentinalX & SentinalX</h2>
-                <p><strong>UISentinalX</strong> is the sleek, modern user interface style designed to showcase and support the powerful <strong>SentinalX</strong> anti-cheat system.</p>
-                <p><strong>SentinalX</strong> is an advanced, multi-platform anti-cheat solution currently focused on Roblox but <strong>coming soon to ALL major game engines</strong>, providing robust protection against hacks, exploits, and script injections.</p>
-                <p>Developed by HatD3V, SentinalX combines cutting-edge detection techniques with a user-friendly interface to keep your games secure and your players safe.</p>
-                <p>Future updates will include AI-powered detection, cloud logging, auto-update syncing, and expanded engine support.</p>
-                <p><strong>Did you know?</strong> Over <em>90% of hacked Roblox games</em> are compromised due to infected scripts or outdated anti-cheat systems — SentinalX aims to change that.</p>
-                <p>Stay tuned as we build the future of game security with SentinalX and UISentinalX.</p>
-            </div>
-        </div>
-    </div>
+  <div class="navbar">
+    <img src="https://raw.githubusercontent.com/SentinalXTeam/SentinalX/refs/heads/main/Sentinal%20X.png" alt="SentinalX Logo" class="logo">
+    <nav>
+      <a href="index.html">Config</a>
+      <a href="logs.html">Logs</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
 
-    <script>
-        function showPage(pageId) {
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-        }
-    </script>
+  <div class="editor-container">
+    <h1>SentinalX Web Config</h1>
+    <label>Game ID:</label>
+    <input type="text" id="gameId">
+
+    <label>Access Key:</label>
+    <input type="text" id="accessKey">
+
+    <label><input type="checkbox" id="aiDetection"> AI Detection</label>
+    <label><input type="checkbox" id="autoUpdate"> Auto Update</label>
+    <label><input type="checkbox" id="logInjection"> Log Injection</label>
+
+    <label>Scan Rate:</label>
+    <select id="scanRate">
+      <option value="1">Low</option>
+      <option value="2">Medium</option>
+      <option value="3">High</option>
+    </select>
+
+    <button onclick="saveConfig()">Save Config</button>
+  </div>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
