@@ -1,44 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SentinalX Config Editor</title>
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SentinalX Portal - UISentinal 7 Style</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap');
+
+  /* Reset & base */
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Comfortaa', cursive;
+    background: linear-gradient(135deg, #0a0026 0%, #120021 80%);
+    color: #eee;
+    user-select: none;
+  }
+
+  /* Navbar */
+  .navbar {
+    background: #1c0040;
+    padding: 1rem 2rem;
+    box-shadow: 0 0 25px #9900ffcc;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .navbar h1 {
+    font-weight: 700;
+    font-size: 2rem;
+    color: #bb33ff;
+    letter-spacing: 0.1em;
+  }
+
+  /* Main container */
+  .container {
+    max-width: 900px;
+    margin: 2rem auto;
+    background: radial-gradient(ellipse at center, #220044, #0a0026);
+    border-radius: 15px;
+    box-shadow: 0 0 40px #9900ffaa;
+    padding: 2rem 3rem;
+  }
+
+  h2 {
+    color: #cc88ff;
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: #ccbbffcc;
+  }
+
+  input[type="text"], textarea {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    margin-top: 0.3rem;
+    background: #1a0033;
+    border: 2px solid #aa55ff;
+    border-radius: 12px;
+    color: #ddd;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    font-family: 'Comfortaa', cursive;
+  }
+  input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border-color: #ee77ff;
+    box-shadow: 0 0 10px #ee77ff88;
+  }
+  textarea {
+    resize: vertical;
+    font-family: monospace;
+    font-size: 0.95rem;
+  }
+
+  /* Buttons */
+  button {
+    margin-top: 1.2rem;
+    background: linear-gradient(45deg, #9900ff, #bb33ff);
+    border: none;
+    border-radius: 14px;
+    color: #130014;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.75rem 2rem;
+    cursor: pointer;
+    box-shadow: 0 0 15px #bb33ff;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+  }
+  button:hover {
+    background: linear-gradient(45deg, #bb33ff, #dd55ff);
+    box-shadow: 0 0 20px #dd55ff;
+  }
+  button:active {
+    transform: scale(0.97);
+  }
+
+  /* Message text */
+  .message {
+    margin-top: 1rem;
+    font-weight: 700;
+    color: #ff4444;
+    min-height: 1.4rem;
+  }
+  .message.success {
+    color: #66ff66;
+  }
+
+  /* Sections */
+  #dashboard {
+    display: none;
+  }
+
+  /* Config buttons row */
+  .config-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .config-buttons button {
+    flex: 1 1 150px;
+    font-size: 0.95rem;
+    padding: 0.6rem 1rem;
+    box-shadow: 0 0 10px #aa44ffaa;
+  }
+
+</style>
 </head>
 <body>
-  <div class="navbar">
-    <img src="https://raw.githubusercontent.com/SentinalXTeam/SentinalX/refs/heads/main/Sentinal%20X.png" alt="SentinalX Logo" class="logo">
-    <nav>
-      <a href="index.html">Config</a>
-      <a href="logs.html">Logs</a>
-      <a href="about.html">About</a>
-    </nav>
+
+<div class="navbar">
+  <h1>SentinalX</h1>
+</div>
+
+<div class="container">
+
+  <div id="keySection">
+    <h2>Access Your Config</h2>
+
+    <label for="gameId">Game ID</label>
+    <input type="text" id="gameId" placeholder="Enter Game ID" />
+
+    <label for="accessKey">Access Key</label>
+    <input type="text" id="accessKey" placeholder="Enter Access Key" />
+
+    <button onclick="loadConfig()">Load Configuration</button>
+    <p class="message" id="authMessage"></p>
+
+    <hr style="margin: 2rem 0; border-color: #660099bb;" />
+
+    <h2>Create New Access Key</h2>
+
+    <label for="newGameId">New Game ID</label>
+    <input type="text" id="newGameId" placeholder="New Game ID" />
+
+    <label for="newAccessKey">New Access Key</label>
+    <input type="text" id="newAccessKey" placeholder="New Access Key" />
+
+    <button onclick="createKey()">Create Key</button>
+    <p class="message" id="createMessage"></p>
   </div>
 
-  <div class="editor-container">
-    <h1>SentinalX Web Config</h1>
-    <label>Game ID:</label>
-    <input type="text" id="gameId">
+  <div id="dashboard">
+    <h2>Configuration Dashboard</h2>
 
-    <label>Access Key:</label>
-    <input type="text" id="accessKey">
+    <!-- Config buttons for easy editing -->
+    <div class="config-buttons">
+      <button onclick="setConfig('enableFeatureX', true)">Enable Feature X</button>
+      <button onclick="setConfig('enableFeatureX', false)">Disable Feature X</button>
+      <button onclick="setConfig('maxPlayers', 20)">Set Max Players: 20</button>
+      <button onclick="setConfig('maxPlayers', 50)">Set Max Players: 50</button>
+      <button onclick="resetConfig()">Reset Config</button>
+    </div>
 
-    <label><input type="checkbox" id="aiDetection"> AI Detection</label>
-    <label><input type="checkbox" id="autoUpdate"> Auto Update</label>
-    <label><input type="checkbox" id="logInjection"> Log Injection</label>
+    <label for="configArea">Raw Config JSON (Advanced)</label>
+    <textarea id="configArea" rows="15" spellcheck="false"></textarea>
 
-    <label>Scan Rate:</label>
-    <select id="scanRate">
-      <option value="1">Low</option>
-      <option value="2">Medium</option>
-      <option value="3">High</option>
-    </select>
+    <button onclick="saveConfig()">Save Configuration</button>
+    <p class="message" id="saveMessage"></p>
 
-    <button onclick="saveConfig()">Save Config</button>
+    <button style="margin-top: 2rem; background:#440077;" onclick="logout()">Log Out</button>
   </div>
 
-  <script type="module" src="script.js"></script>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCQvIsedCSSOBpgr6pvFEhqOyISOVy6KH4",
+    authDomain: "sentinalxeditor.firebaseapp.com",
+    databaseURL: "https://sentinalxeditor-default-rtdb.firebaseio.com",
+    projectId: "sentinalxeditor",
+    storageBucket: "sentinalxeditor.appspot.com",
+    messagingSenderId: "681449014864",
+    appId: "1:681449014864:web:bd09c7b21f1a6d02787355"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  let currentGameId = null;
+  let currentConfig = {};
+
+  function loadConfig() {
+    const id = document.getElementById('gameId').value.trim();
+    const key = document.getElementById('accessKey').value.trim();
+    const authMessage = document.getElementById('authMessage');
+    authMessage.textContent = '';
+
+    if (!id || !key) {
+      authMessage.textContent = 'Enter both Game ID and Key.';
+      return;
+    }
+
+    db.ref('keys/' + id).once('value').then(snapshot => {
+      const data = snapshot.val();
+      if (data && data.key === key) {
+        currentGameId = id;
+        document.getElementById('dashboard').style.display = 'block';
+        document.getElementById('keySection').style.display = 'none';
+        authMessage.textContent = '';
+        return db.ref('configs/' + id).once('value');
+      } else {
+        throw new Error('Invalid Game ID or Key.');
+      }
+    }).then(cfgSnapshot => {
+      currentConfig = cfgSnapshot.val() || {};
+      updateConfigArea();
+    }).catch(err => {
+      authMessage.textContent = err.message;
+    });
+  }
+
+  function updateConfigArea() {
+    document.getElementById('configArea').value = JSON.stringify(currentConfig, null, 2);
+  }
+
+  function saveConfig() {
+    const saveMessage = document.getElementById('saveMessage');
+    saveMessage.textContent = '';
+    try {
+      const json = JSON.parse(document.getElementById('configArea').value);
+      db.ref('configs/' + currentGameId).set(json).then(() => {
+        currentConfig = json;
+        saveMessage.className = 'message success';
+        saveMessage.textContent = 'Config saved successfully!';
+      }).catch(err => {
+        saveMessage.className = 'message';
+        saveMessage.textContent = 'Save failed: ' + err.message;
+      });
+    } catch (e) {
+      saveMessage.className = 'message';
+      saveMessage.textContent = 'Invalid JSON format.';
+    }
+  }
+
+  function createKey() {
+    const newId = document.getElementById('newGameId').value.trim();
+    const newKey = document.getElementById('newAccessKey').value.trim();
+    const createMessage = document.getElementById('createMessage');
+    createMessage.textContent = '';
+
+    if (!newId || !newKey) {
+      createMessage.textContent = 'Enter both new Game ID and Key.';
+      return;
+    }
+
+    db.ref('keys/' + newId).set({ key: newKey }).then(() => {
+      createMessage.className = 'message success';
+      createMessage.textContent = 'Key created successfully!';
+    }).catch(err => {
+      createMessage.className = 'message';
+      createMessage.textContent = 'Error: ' + err.message;
+    });
+  }
+
+  // Config helper buttons to update config object & textarea
+  function setConfig(key, value) {
+    currentConfig[key] = value;
+    updateConfigArea();
+  }
+
+  function resetConfig() {
+    currentConfig = {};
+    updateConfigArea();
+  }
+
+  function logout() {
+    currentGameId = null;
+    currentConfig = {};
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('keySection').style.display = 'block';
+    document.getElementById('authMessage').textContent = '';
+    document.getElementById('saveMessage').textContent = '';
+    document.getElementById('createMessage').textContent = '';
+    document.getElementById('gameId').value = '';
+    document.getElementById('accessKey').value = '';
+    document.getElementById('configArea').value = '';
+  }
+</script>
+
 </body>
 </html>
